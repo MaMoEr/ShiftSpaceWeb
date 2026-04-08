@@ -64,6 +64,24 @@
       line-height: 1;
     }
 
+    @media (max-width: 600px) and (orientation: portrait) {
+      body {
+        justify-content: center;
+        padding: 0;
+      }
+
+      .brand {
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .brand__divider {
+        width: 64px;
+        height: 2px;
+      }
+    }
+
   </style>
 </head>
 <body>
