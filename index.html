@@ -86,6 +86,8 @@
     .nav a:focus-visible {
       color: var(--color-accent);
       border-bottom-color: var(--color-accent);
+      outline: 2px solid var(--color-accent);
+      outline-offset: 3px;
     }
 
     @media (max-width: 600px) and (orientation: portrait) {
@@ -114,7 +116,7 @@
     <div class="brand__divider"></div>
     <span class="brand__name">ShiftSpace</span>
   </div>
-  <nav class="nav">
+  <nav class="nav" aria-label="Site navigation">
     <a href="ar-view.html">AR View</a>
     <a href="skojar.html">Skojar</a>
   </nav>
