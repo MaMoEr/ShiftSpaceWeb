@@ -33,6 +33,7 @@
       align-items: center;
       justify-content: flex-start;
       padding: 0 10vw;
+      position: relative;
     }
 
     .brand {
@@ -64,6 +65,29 @@
       line-height: 1;
     }
 
+    .nav {
+      position: absolute;
+      top: 24px;
+      right: 10vw;
+      display: flex;
+      gap: 24px;
+      font-size: 0.85rem;
+    }
+
+    .nav a {
+      color: rgba(238, 240, 243, 0.55);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(236, 178, 0, 0.4);
+      padding-bottom: 1px;
+      transition: color 120ms ease, border-color 120ms ease;
+    }
+
+    .nav a:hover,
+    .nav a:focus-visible {
+      color: var(--color-accent);
+      border-bottom-color: var(--color-accent);
+    }
+
     @media (max-width: 600px) and (orientation: portrait) {
       body {
         justify-content: center;
@@ -90,5 +114,9 @@
     <div class="brand__divider"></div>
     <span class="brand__name">ShiftSpace</span>
   </div>
+  <nav class="nav">
+    <a href="ar-view.html">AR View</a>
+    <a href="skojar.html">Skojar</a>
+  </nav>
 </body>
 </html>
