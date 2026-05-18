@@ -52,7 +52,11 @@
       transition: color 120ms ease, border-color 120ms ease;
     }
 
-    .topbar a:hover,
+    .topbar a:hover {
+      color: var(--color-accent);
+      border-bottom-color: var(--color-accent);
+    }
+
     .topbar a:focus-visible {
       color: var(--color-accent);
       border-bottom-color: var(--color-accent);
@@ -125,6 +129,17 @@
       color: var(--color-accent);
       font-size: 0.9rem;
       text-decoration: none;
+      transition: background 120ms ease;
+    }
+
+    .project__cta:hover {
+      background: rgba(236, 178, 0, 0.18);
+    }
+
+    .project__cta:focus-visible {
+      background: rgba(236, 178, 0, 0.18);
+      outline: 2px solid var(--color-accent);
+      outline-offset: 3px;
     }
 
     @media (max-width: 600px) {

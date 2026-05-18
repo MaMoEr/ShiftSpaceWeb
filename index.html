@@ -82,7 +82,11 @@
       transition: color 120ms ease, border-color 120ms ease;
     }
 
-    .nav a:hover,
+    .nav a:hover {
+      color: var(--color-accent);
+      border-bottom-color: var(--color-accent);
+    }
+
     .nav a:focus-visible {
       color: var(--color-accent);
       border-bottom-color: var(--color-accent);
