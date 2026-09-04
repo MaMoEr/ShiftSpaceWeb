@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Paper — ShiftSpace</title>
-  <meta name="description" content="An interactive flock of paper planes, running in the browser." />
+  <title>Paper Planes — ShiftSpace</title>
+  <meta name="description" content="A thousand paper planes, flocking. An interactive scene running in the browser." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" rel="stylesheet" />
@@ -22,6 +22,10 @@
       --color-white:   #EEF0F3;
     }
 
+    [hidden] {
+      display: none !important;
+    }
+
     html, body {
       height: 100%;
     }
@@ -32,16 +36,26 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
       display: flex;
       flex-direction: column;
-      min-height: 100%;
+      overflow: hidden;
     }
 
     .topbar {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: baseline;
+      gap: 24px;
       padding: 20px 10vw;
       border-bottom: 1px solid rgba(238, 240, 243, 0.07);
       flex-shrink: 0;
+    }
+
+    .topbar__title {
+      font-family: "Inter", sans-serif;
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--color-white);
+      line-height: 1.1;
     }
 
     .topbar a {
@@ -50,6 +64,7 @@
       text-decoration: none;
       border-bottom: 1px solid transparent;
       padding-bottom: 1px;
+      flex-shrink: 0;
       transition: color 120ms ease, border-color 120ms ease;
     }
 
@@ -65,61 +80,25 @@
       outline-offset: 3px;
     }
 
-    .content {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      padding: 48px 10vw;
-    }
+    /* --- The flock fills everything under the header ------------------- */
 
-    .project {
-      display: flex;
-      flex-direction: column;
-      gap: 32px;
-      width: 100%;
-      max-width: 1100px;
-    }
-
-    .project__name {
-      font-family: "Inter", sans-serif;
-      font-size: clamp(1.75rem, 4vw, 2.5rem);
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      color: var(--color-white);
-      line-height: 1.1;
-    }
-
-    .project__description {
-      font-size: 1rem;
-      line-height: 1.6;
-      color: rgba(238, 240, 243, 0.45);
-      margin-top: 10px;
-      max-width: 60ch;
-    }
-
-    /* --- The flock box ------------------------------------------------- */
-
-    .flock {
+    .stage {
       position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      /* Keep the whole box on screen on a laptop — the text above and caption below take
-         roughly 380px. The camera is happy wider than 16:9, so clamping the height is safe. */
-      max-height: max(280px, calc(100vh - 380px));
-      background: var(--color-main);
-      border: 1px solid rgba(236, 178, 0, 0.18);
-      border-radius: 8px;
-      overflow: hidden;
+      flex: 1;
+      /* Without this a flex child refuses to shrink below its content. */
+      min-height: 0;
+      /* Matches the scene's own background, so the loading state does not flash. */
+      background: var(--color-black);
     }
 
-    .flock__canvas {
+    .stage__canvas {
       width: 100%;
       height: 100%;
       display: block;
     }
 
     /* Overlay used for loading, the click-to-load prompt and error states. */
-    .flock__overlay {
+    .stage__overlay {
       position: absolute;
       inset: 0;
       display: flex;
@@ -129,31 +108,27 @@
       gap: 18px;
       padding: 24px;
       text-align: center;
-      background: var(--color-main);
+      background: var(--color-black);
       color: rgba(238, 240, 243, 0.45);
       font-size: 0.9rem;
       line-height: 1.5;
     }
 
-    [hidden] {
-      display: none !important;
-    }
-
-    .flock__bar {
+    .stage__bar {
       width: min(240px, 60%);
       height: 2px;
       background: rgba(238, 240, 243, 0.12);
       overflow: hidden;
     }
 
-    .flock__bar-fill {
+    .stage__bar-fill {
       width: 0%;
       height: 100%;
       background: var(--color-accent);
       transition: width 120ms linear;
     }
 
-    .flock__button {
+    .stage__button {
       display: inline-block;
       background: rgba(236, 178, 0, 0.1);
       border: 1px solid rgba(236, 178, 0, 0.4);
@@ -162,84 +137,51 @@
       color: var(--color-accent);
       font: inherit;
       font-size: 0.9rem;
-      text-decoration: none;
       cursor: pointer;
       transition: background 120ms ease;
     }
 
-    .flock__button:hover {
+    .stage__button:hover {
       background: rgba(236, 178, 0, 0.18);
     }
 
-    .flock__button:focus-visible {
+    .stage__button:focus-visible {
       background: rgba(236, 178, 0, 0.18);
       outline: 2px solid var(--color-accent);
       outline-offset: 3px;
     }
 
-    .flock__note {
+    .stage__note {
       font-size: 0.8rem;
       color: rgba(238, 240, 243, 0.3);
     }
 
-    .project__caption {
-      font-size: 0.85rem;
-      color: rgba(238, 240, 243, 0.3);
-      margin-top: -14px;
-    }
-
     @media (max-width: 600px) {
-      .content {
-        padding: 32px 6vw;
-      }
-
       .topbar {
-        padding: 20px 6vw;
-      }
-
-      /* A tall box crops the outer planes — stay landscape-ish on phones. */
-      .flock {
-        aspect-ratio: 3 / 2;
+        padding: 16px 6vw;
       }
     }
   </style>
 </head>
 <body>
   <header class="topbar">
+    <h1 class="topbar__title">Paper Planes</h1>
     <a href="../index.html">← ShiftSpace</a>
   </header>
 
-  <main class="content">
-    <div class="project">
-      <div>
-        <h1 class="project__name">Paper</h1>
-        <p class="project__description">
-          A few hundred paper planes, flocking. They hold a loose formation, drift around
-          each other, and part around the mouse pointer — move the cursor into the box below
-          and push through them. Built in Unity, running in the browser on WebGL.
-        </p>
-      </div>
+  <main class="stage" id="flock-box">
+    <canvas
+      class="stage__canvas"
+      id="flock-canvas"
+      role="img"
+      aria-label="A thousand paper planes flocking in an open volume, parting around the mouse pointer."
+    ></canvas>
 
-      <div class="flock" id="flock-box">
-        <canvas
-          class="flock__canvas"
-          id="flock-canvas"
-          role="img"
-          aria-label="An animated flock of paper planes drifting in an open volume, parting around the mouse pointer."
-        ></canvas>
-
-        <div class="flock__overlay" id="flock-overlay">
-          <p id="flock-message">Loading the flock…</p>
-          <div class="flock__bar" id="flock-bar"><div class="flock__bar-fill" id="flock-bar-fill"></div></div>
-          <button class="flock__button" id="flock-button" hidden type="button">Show the flock</button>
-          <p class="flock__note" id="flock-note" hidden>About 11 MB</p>
-        </div>
-      </div>
-
-      <p class="project__caption">
-        Pointer or touch to push the planes aside. The simulation pauses when the box scrolls
-        out of view.
-      </p>
+    <div class="stage__overlay" id="flock-overlay">
+      <p id="flock-message">Loading the flock…</p>
+      <div class="stage__bar" id="flock-bar"><div class="stage__bar-fill" id="flock-bar-fill"></div></div>
+      <button class="stage__button" id="flock-button" hidden type="button">Show the flock</button>
+      <p class="stage__note" id="flock-note" hidden>About 11 MB</p>
     </div>
   </main>
 
@@ -254,10 +196,10 @@
       var button   = document.getElementById("flock-button");
       var note     = document.getElementById("flock-note");
 
-      // The build is decorative motion: never swallow the page's scrolling. A capture-phase
-      // listener on the container stops the wheel event before Unity's canvas handler sees it,
-      // without preventing the default scroll.
-      box.addEventListener("wheel", function (e) { e.stopPropagation(); }, true);
+      // Unity's canvas swallows wheel events while hovered, which stalls the page. Capture
+      // phase so this runs first; no preventDefault, so the browser still scrolls.
+      box.addEventListener("wheel", function (e) { e.stopPropagation(); },
+                           { capture: true, passive: true });
 
       function hasWebGL2() {
         try {
@@ -303,17 +245,18 @@
             companyName:    "ShiftSpace",
             productName:    "Planes",
             productVersion: "0.1.0",
-            // Decoration on a content page — native retina density costs ~4x the pixels
-            // for no visible gain.
+            // Caps render resolution on retina screens for memory and GPU headroom. The
+            // build is CPU-bound on the simulation, so this buys no frames.
             devicePixelRatio: Math.min(window.devicePixelRatio, 1.5)
           }, function (progress) {
             barFill.style.width = Math.round(progress * 100) + "%";
           }).then(function (instance) {
+            // Keep it reachable — the control surface below is the only way to drive it.
             window.flock = instance;
             overlay.hidden = true;
 
-            // 30 fps is genuinely hard to notice on a flock that drifts this slowly,
-            // and roughly halves the cost.
+            // The flock is stepped on the main thread and phones have less headroom than
+            // the desktop this was measured on. 30 is hard to notice at this drift speed.
             instance.SendMessage("Flock", "SetTargetFrameRate", 30);
 
             // A canvas that has scrolled out of view keeps getting animation frames.
