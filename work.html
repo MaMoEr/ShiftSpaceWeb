@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projekt — ShiftSpace</title>
+  <meta name="description" content="Utvalda projekt inom Augmented Reality av ShiftSpace." />
+  <link rel="alternate" hreflang="sv" href="https://www.shiftspace.se/work.html" />
+  <link rel="alternate" hreflang="en" href="https://www.shiftspace.se/en/work.html" />
+  <link rel="alternate" hreflang="x-default" href="https://www.shiftspace.se/work.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/site.css" />
+  <script>document.documentElement.classList.add('js');</script>
+  <script src="assets/nav.js" defer></script>
+</head>
+<body class="theme-light">
+  <div class="page">
+    <header class="site-header">
+      <a class="site-header__logo" href="index.html"><img src="assets/lockup-navy.png" alt="ShiftSpace" width="450" height="71" /></a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Meny"><svg class="nav-toggle__icon nav-toggle__icon--menu" viewBox="0 -960 960 960" width="28" height="28" aria-hidden="true" focusable="false"><path d="M140-254.62v-59.99h680v59.99H140ZM140-450v-60h680v60H140Zm0-195.39v-59.99h680v59.99H140Z"/></svg><svg class="nav-toggle__icon nav-toggle__icon--close" viewBox="0 -960 960 960" width="28" height="28" aria-hidden="true" focusable="false"><path d="M256-213.85 213.85-256l224-224-224-224L256-746.15l224 224 224-224L746.15-704l-224 224 224 224L704-213.85l-224-224-224 224Z"/></svg></button>
+      <nav class="site-nav" id="site-nav" aria-label="Webbplatsnavigering">
+        <a href="work.html" aria-current="page">Projekt</a>
+        <a href="about.html">Om oss</a>
+        <a href="contact.html">Kontakt</a>
+        <a class="site-nav__lang" href="en/work.html" hreflang="en" lang="en" aria-label="English">EN</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="work-intro">
+        <div class="kicker">Projekt</div>
+        <h1 class="display">Utvalda projekt.</h1>
+      </section>
+
+      <section class="work-grid" aria-label="Projekt">
+        <a class="card" href="ar-view.html">
+          <div class="card__pattern"></div>
+          <div class="card__scrim"></div>
+          <div class="card__body">
+            <div class="card__text">
+              <div class="card__index">01</div>
+              <h2 class="card__name">ARView</h2>
+            </div>
+            <div class="card__arrow" aria-hidden="true">→</div>
+          </div>
+        </a>
+        <a class="card" href="paper/">
+          <div class="card__pattern"></div>
+          <div class="card__scrim"></div>
+          <div class="card__body">
+            <div class="card__text">
+              <div class="card__index">02</div>
+              <h2 class="card__name">Planes</h2>
+            </div>
+            <div class="card__arrow" aria-hidden="true">→</div>
+          </div>
+        </a>
+        <!-- No detail page yet: card is not a link and has no arrow -->
+        <div class="card">
+          <div class="card__pattern"></div>
+          <div class="card__scrim"></div>
+          <div class="card__body">
+            <div class="card__text">
+              <div class="card__index">03</div>
+              <h2 class="card__name">HärnösandTorget</h2>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card__pattern"></div>
+          <div class="card__scrim"></div>
+          <div class="card__body">
+            <div class="card__text">
+              <div class="card__index">04</div>
+              <h2 class="card__name">JulkalenderGraf</h2>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>ShiftSpace AB · Stockholm</span>
+      <a href="contact.html">Kontakt →</a>
+    </footer>
+  </div>
+</body>
+</html>
