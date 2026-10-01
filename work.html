@@ -35,41 +35,58 @@
       </section>
 
       <section class="work-grid" aria-label="Projekt">
-        <a class="card" href="ar-view.html">
+        <a class="card" href="work/arview.html">
           <div class="card__pattern"></div>
+          <picture>
+            <source type="image/avif" srcset="assets/arview-700.avif 700w, assets/arview-1080.avif 1080w" sizes="(max-width: 900px) 100vw, 50vw" />
+            <source type="image/webp" srcset="assets/arview-700.webp 700w, assets/arview-1080.webp 1080w" sizes="(max-width: 900px) 100vw, 50vw" />
+            <img class="card__image" src="assets/arview-700.jpg" alt="" width="700" height="700" loading="lazy" decoding="async" />
+          </picture>
           <div class="card__scrim"></div>
           <div class="card__body">
             <div class="card__text">
               <div class="card__index">01</div>
               <h2 class="card__name">ARView</h2>
             </div>
-            <div class="card__arrow" aria-hidden="true">→</div>
+            <div class="card__arrow"><svg class="arrow-icon" viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></svg></div>
           </div>
         </a>
-        <a class="card" href="paper/">
+        <a class="card" href="work/planes.html">
           <div class="card__pattern"></div>
+          <picture>
+            <source type="image/avif" srcset="assets/planes-700.avif 700w, assets/planes-1320.avif 1320w" sizes="(max-width: 900px) 100vw, 50vw" />
+            <source type="image/webp" srcset="assets/planes-700.webp 700w, assets/planes-1320.webp 1320w" sizes="(max-width: 900px) 100vw, 50vw" />
+            <img class="card__image" src="assets/planes-700.jpg" alt="" width="700" height="700" loading="lazy" decoding="async" />
+          </picture>
           <div class="card__scrim"></div>
           <div class="card__body">
             <div class="card__text">
               <div class="card__index">02</div>
               <h2 class="card__name">Planes</h2>
             </div>
-            <div class="card__arrow" aria-hidden="true">→</div>
+            <div class="card__arrow"><svg class="arrow-icon" viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></svg></div>
           </div>
         </a>
-        <!-- No detail page yet: card is not a link and has no arrow -->
-        <div class="card">
+        <a class="card" href="work/hartorget.html">
           <div class="card__pattern"></div>
+          <picture>
+            <source type="image/avif" srcset="assets/harnosand-700.avif 700w, assets/harnosand-1000.avif 1000w" sizes="(max-width: 900px) 100vw, 50vw" />
+            <source type="image/webp" srcset="assets/harnosand-700.webp 700w, assets/harnosand-1000.webp 1000w" sizes="(max-width: 900px) 100vw, 50vw" />
+            <img class="card__image" src="assets/harnosand-700.jpg" alt="" width="700" height="700" loading="lazy" decoding="async" />
+          </picture>
           <div class="card__scrim"></div>
           <div class="card__body">
             <div class="card__text">
               <div class="card__index">03</div>
-              <h2 class="card__name">HärnösandTorget</h2>
+              <h2 class="card__name">HÄR-torget</h2>
             </div>
+            <div class="card__arrow"><svg class="arrow-icon" viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></svg></div>
           </div>
-        </div>
-        <div class="card">
+        </a>
+        <!-- In progress: no page yet, so the card is not a link -->
+        <div class="card card--soon">
           <div class="card__pattern"></div>
+          <p class="card__soon">Kommer snart.</p>
           <div class="card__scrim"></div>
           <div class="card__body">
             <div class="card__text">

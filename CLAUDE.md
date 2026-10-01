@@ -16,9 +16,10 @@ Run the `site` config in `.claude/launch.json` (`npx http-server . -p 8123`), or
 
 **Main pages** (in both languages) all use `assets/site.css`:
 - `index.html`: front page with a full-bleed hero (`assets/hero-smoke-ribbon-*.{avif,webp,jpg}`)
-- `work.html`: project grid. The cards link to `ar-view.html` and `paper/`. HärnösandTorget and JulkalenderGraf have no pages yet.
+- `work.html`: project grid. Cards link to the project pages; JulkalenderGraf has no page yet.
+- `work/<slug>.html`: project pages (`arview`, `planes`, `hartorget`). Each has a full-bleed image hero, a description (placeholder copy for now) and an optional links list; Planes links to `paper/`. The hero sets dark `--page-bg`/`--page-fg` so the mobile menu panel is dark even though the page body is `theme-light`.
 - `about.html`: mission text
-- `contact.html`: contact form. The logic is in `assets/contact.js`; each page supplies its own error and success messages as `data-*` attributes on the form. It posts to Formspree (placeholder `YOUR_FORM_ID` in the form `action`, on both language pages).
+- `contact.html`: contact form. The logic is in `assets/contact.js`; each page supplies its own error and success messages as `data-*` attributes on the form. It posts to Formspree (form ID `mvkgyjaw` in the form `action`, on both language pages).
 
 **Older standalone pages** have their own inline styles (Inter font) and should be kept: `privacy.html` (its URL must not change), `ar-view.html`, `skojar.html`, `paper/` (Unity WebGL Paper Planes build).
 
