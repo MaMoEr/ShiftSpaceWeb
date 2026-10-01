@@ -570,6 +570,16 @@ a.card:hover { color: var(--ss-offwhite); }
   width: clamp(120px, 14vw, 160px);
   height: auto;
 }
+/* The Snapcode itself is the link (tap on mobile opens the lens in Snapchat) */
+.project-link__code-link {
+  display: block;
+  flex-shrink: 0;
+  border-radius: 18%;
+  transition: filter 120ms var(--ease-standard), transform 120ms var(--ease-standard);
+}
+.project-link__code-link:hover { filter: brightness(1.06); }
+.project-link__code-link:active { transform: scale(0.98); }
+.project-link__code-link:focus-visible { border-radius: 18%; }
 
 /* ---------- About ---------- */
 .about {
