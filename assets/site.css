@@ -188,6 +188,7 @@ button:focus-visible {
   border-top: 0;
   padding-top: clamp(16px, 1.5vw, 24px);
   padding-bottom: clamp(16px, 1.5vw, 24px);
+  line-height: 18px; /* fixed so .hero__footer-fade can match the footer height */
 }
 
 /* ---------- Shared type ---------- */
@@ -267,6 +268,21 @@ button:focus-visible {
   height: 55%;
   background: linear-gradient(0deg, rgba(9, 13, 22, 0.8), rgba(9, 13, 22, 0));
 }
+/* Blends the image's own bottom shadow into the footer: as high as the footer, transparent
+   to the footer colour. Comes before the title in the markup, so it never covers text. */
+.hero__footer-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(2 * clamp(16px, 1.5vw, 24px) + 18px); /* = one-line .site-footer--bare */
+  background: linear-gradient(180deg, rgba(9, 13, 22, 0), var(--ss-black));
+  pointer-events: none;
+}
+/* Narrow screens: the footer wraps to two lines (plus its 8px row gap) */
+@media (max-width: 420px) {
+  .hero__footer-fade { height: calc(2 * clamp(16px, 1.5vw, 24px) + 2 * 18px + 8px); }
+}
 .hero .site-header {
   position: absolute;
   top: clamp(24px, 4vw, 48px);
@@ -300,7 +316,7 @@ button:focus-visible {
 
 /* ---------- Work ---------- */
 .work-intro {
-  padding: clamp(72px, 10vw, 160px) var(--gutter) clamp(48px, 6vw, 96px);
+  padding: clamp(40px, 6vw, 96px) var(--gutter) clamp(48px, 6vw, 96px);
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -332,8 +348,11 @@ a.card:hover { color: var(--ss-offwhite); }
 }
 .card__pattern { background: var(--pattern-scan); }
 .card__image {
-  background-size: cover;
-  background-position: center;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 .card__scrim {
   position: absolute;
@@ -384,14 +403,178 @@ a.card:hover { color: var(--ss-offwhite); }
   display: flex;
   align-items: center;
   justify-content: center;
+}
+/* In-progress card: centred "Coming soon." over the stripe pattern */
+.card__soon {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  text-align: center;
+  font-size: clamp(24px, 2.4vw, 36px);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  color: var(--paper-70);
+}
+/* SVG arrow (Material Symbols arrow_forward / arrow_outward): centres exactly, scales with the circle */
+.arrow-icon {
+  display: block;
+  width: 50%;
+  height: 50%;
+  fill: currentColor;
+}
+
+/* ---------- Project page ---------- */
+.project-hero {
+  /* Dark context for everything inside the hero, including the mobile menu panel */
+  --page-bg: var(--ss-black);
+  --page-fg: var(--ss-offwhite);
+  position: relative;
+  min-height: clamp(480px, 78vh, 860px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--ss-black-700);
+  color: var(--ss-offwhite);
+}
+.project-hero__pattern,
+.project-hero__img,
+.project-hero__scrim {
+  position: absolute;
+  inset: 0;
+}
+.project-hero__pattern { background: var(--pattern-scan); }
+.project-hero__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.project-hero__scrim {
+  background: linear-gradient(180deg, rgba(9, 13, 22, 0.55) 0%, rgba(9, 13, 22, 0) 30%, rgba(9, 13, 22, 0) 45%, rgba(9, 13, 22, 0.8) 100%);
+}
+/* The page body is light; undo light-theme nav colors inside the dark hero */
+.theme-light .project-hero .site-nav { color: var(--paper-82); }
+.theme-light .project-hero .site-nav__lang { border-left-color: rgba(238, 240, 243, 0.3); }
+.site-nav a.is-section { font-weight: 700; }
+@media (max-width: 720px) {
+  .js .theme-light .project-hero .site-nav { color: var(--ss-offwhite); }
+  .js .theme-light .project-hero .site-nav__lang { color: var(--paper-55); }
+}
+.project-hero__bottom {
+  position: relative;
+  margin-top: auto;
+  padding: 0 var(--gutter) clamp(40px, 6vw, 96px);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.project-hero__back {
+  align-self: flex-start;
   font-family: var(--font-mono);
-  font-size: 20px;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.project-hero__title {
+  margin: 0;
+  font-size: clamp(44px, 9vw, 144px);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  overflow-wrap: anywhere;
+}
+
+.project-desc {
+  padding: clamp(72px, 10vw, 160px) var(--gutter);
+  display: flex;
+  justify-content: center;
+}
+.project-col {
+  width: 100%;
+  max-width: 760px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.project-desc__text {
+  margin: 0;
+  font-size: clamp(18px, 1.6vw, 22px);
+  font-weight: 300;
+  line-height: 1.7;
+  text-wrap: pretty;
+  color: rgba(40, 46, 69, 0.85);
+}
+
+.project-links {
+  padding: 0 var(--gutter) clamp(72px, 10vw, 160px);
+  display: flex;
+  justify-content: center;
+}
+.project-links__list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--ss-hairline);
+}
+.project-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--ss-hairline);
+}
+.project-link__label {
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.project-link__meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-60);
+}
+/* Same amber circle with navy arrow as the project cards (amber text alone is unreadable on off-white) */
+.project-link__arrow {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--ss-amber);
+  color: var(--ss-navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.project-link__end {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 3vw, 32px);
+  min-width: 0;
+}
+.project-link--static:hover { color: inherit; }
+/* Snapcode: big enough to scan from a screen with a phone camera */
+.project-link__code {
+  display: block;
+  flex-shrink: 0;
+  width: clamp(120px, 14vw, 160px);
+  height: auto;
 }
 
 /* ---------- About ---------- */
 .about {
   flex: 1;
-  padding: clamp(72px, 10vw, 160px) var(--gutter);
+  padding: clamp(40px, 6vw, 96px) var(--gutter) clamp(72px, 10vw, 160px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -419,7 +602,7 @@ a.card:hover { color: var(--ss-offwhite); }
   flex: 1;
   width: 100%;
   max-width: 1400px;
-  padding: clamp(72px, 10vw, 160px) var(--gutter);
+  padding: clamp(40px, 6vw, 96px) var(--gutter) clamp(72px, 10vw, 160px);
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
   gap: clamp(48px, 8vw, 128px);
