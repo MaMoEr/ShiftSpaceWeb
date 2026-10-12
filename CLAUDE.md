@@ -12,7 +12,7 @@ Run the `site` config in `.claude/launch.json` (`npx http-server . -p 8123`), or
 
 ## Architecture
 
-**Languages:** Swedish is the default, at the root. English lives under `en/`, with the same file names. Each page has `hreflang` alternate links and an SV/EN switch in the nav that goes to the same page in the other language. Changes to one language must be mirrored in the other. The privacy policy exists only in English.
+**Languages:** Swedish is the default, at the root. English lives under `en/`, with the same file names. Each page has `hreflang` alternate links and an SV/EN switch in the nav that goes to the same page in the other language. Changes to one language must be mirrored in the other. The privacy policy is the exception: `privacy.html` (English) and `privacy-sv.html` (Swedish) both sit at the root and link to each other.
 
 **Main pages** (in both languages) all use `assets/site.css`:
 - `index.html`: front page with a full-bleed hero (`assets/hero-smoke-ribbon-*.{avif,webp,jpg}`)
@@ -21,7 +21,7 @@ Run the `site` config in `.claude/launch.json` (`npx http-server . -p 8123`), or
 - `about.html`: mission text
 - `contact.html`: contact form. The logic is in `assets/contact.js`; each page supplies its own error and success messages as `data-*` attributes on the form. It posts to Formspree (form ID `mvkgyjaw` in the form `action`, on both language pages).
 
-**Older standalone pages** have their own inline styles (Inter font) and should be kept: `privacy.html` (its URL must not change), `ar-view.html`, `skojar.html`, `paper/` (Unity WebGL Paper Planes build).
+**Older standalone pages** have their own inline styles (Inter font) and should be kept: `privacy.html` and `privacy-sv.html` (their URLs must not change; they cover the website and the AR View and AR Härnösand apps), `ar-view.html`, `skojar.html`, `paper/` (Unity WebGL Paper Planes build).
 
 **Theme:** each page sets a body class (`theme-dark`, `theme-navy` or `theme-light`), which sets the page colors. The header logo matches the theme: `assets/lockup-{white,amber,navy}.png` (white on imagery, amber on dark, navy on light).
 
