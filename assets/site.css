@@ -581,6 +581,95 @@ a.card:hover { color: var(--ss-offwhite); }
 .project-link__code-link:active { transform: scale(0.98); }
 .project-link__code-link:focus-visible { border-radius: 18%; }
 
+/* Sub-page of a project (e.g. image markers): shorter hero */
+.project-hero--compact { min-height: clamp(360px, 48vh, 520px); }
+
+.project-subhead {
+  margin: 0;
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+.project-minorhead {
+  margin: 16px 0 0;
+  font-size: clamp(20px, 2vw, 24px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.project-list {
+  margin: 0;
+  padding-left: 1.2em;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: clamp(17px, 1.4vw, 20px);
+  font-weight: 300;
+  line-height: 1.7;
+  text-wrap: pretty;
+  color: rgba(40, 46, 69, 0.85);
+}
+.project-list li::marker { color: var(--ss-amber); }
+
+/* Image markers: title, image and download link per item */
+.markers {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+  gap: clamp(32px, 4vw, 48px) clamp(24px, 3vw, 32px);
+}
+.marker {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+.marker__title {
+  margin: 0;
+  font-size: clamp(20px, 2vw, 24px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.marker__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--ss-hairline);
+  border-radius: 8px;
+  background: #fff;
+}
+.marker__download {
+  align-self: flex-start;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 12px 20px;
+  border-radius: 999px;
+  background: var(--ss-amber);
+  color: var(--ss-navy);
+  transition: background-color 160ms var(--ease-standard);
+}
+.marker__download:hover { color: var(--ss-navy); background: #F5C430; }
+.marker__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+}
+.marker__alt {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-70);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.marker__alt:hover { color: var(--ss-navy); }
+
 /* ---------- About ---------- */
 .about {
   flex: 1;
