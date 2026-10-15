@@ -21,7 +21,7 @@ Run the `site` config in `.claude/launch.json` (`npx http-server . -p 8123`), or
 - `about.html`: mission text
 - `contact.html`: contact form. The logic is in `assets/contact.js`; each page supplies its own error and success messages as `data-*` attributes on the form. It posts to Formspree (form ID `mvkgyjaw` in the form `action`, on both language pages).
 
-**Older standalone pages** have their own inline styles (Inter font) and should be kept: `privacy.html` and `privacy-sv.html` (their URLs must not change; they cover the website and the AR View and AR Härnösand apps), `ar-view.html`, `skojar.html`, `paper/` (Unity WebGL Paper Planes build).
+**Older standalone pages** have their own inline styles (Inter font) and should be kept: `privacy.html` and `privacy-sv.html` (their URLs must not change; they cover the website and the AR View and HÄR AR apps), `ar-view.html`, `skojar.html`, `paper/` (Unity WebGL Paper Planes build).
 
 **Theme:** each page sets a body class (`theme-dark`, `theme-navy` or `theme-light`), which sets the page colors. The header logo matches the theme: `assets/lockup-{white,amber,navy}.png` (white on imagery, amber on dark, navy on light).
 
