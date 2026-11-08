@@ -92,7 +92,11 @@ section { padding-block: 56px; }
 .hours td:last-child { text-align: right; font-weight: 700; padding-left: 12px; }
 .hours tr:first-child td { border-top: 0; }
 .mapbtn { justify-self: start; font: 700 16px/1 var(--font); padding: 13px 20px; border-radius: 99px; border: 2px solid var(--ink); background: var(--surface); color: var(--ink); text-decoration: none; }
-.mapimg { min-height: 260px; height: 100%; border-radius: 14px; }
+.mapcard { padding: 0; overflow: hidden; }
+.mapbox { position: relative; min-height: 300px; height: 100%; background: var(--paper); }
+.mapbox a.map { position: absolute; inset: 0; display: block; }
+.mapbox img { width: 100%; height: 100%; object-fit: none; object-position: 50% 50%; display: block; }
+.mapbox .osm { position: absolute; right: 0; bottom: 0; margin: 0; padding: 3px 8px; background: rgba(255,255,255,.88); color: var(--ink); font-size: 12px; border-top-left-radius: 8px; }
 
 /* screenshots */
 .shots { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 32px; }
@@ -193,8 +197,7 @@ footer .hlogo { width: clamp(88px, 22vw, 140px); height: auto; filter: invert(1)
       <div class="card">
         <h3>Hitta hit</h3>
         <p>GRAF-gallerian, Härnösand.<br><span class="todo">Exakt gatuadress, Köpmangatan 4B eller Storgatan 31?</span></p>
-        <!-- Placeholder: replace # with the map link -->
-        <a class="mapbtn" href="#" aria-label="Öppna kartan (platshållare för länk)">Visa på karta</a>
+        <a class="mapbtn" href="https://www.google.com/maps/place/GRAF+-+Knutpunkten/@62.6329406,17.9385649,17z/data=!4m6!3m5!1s0x46649b3cc31aa95d:0xea2bf1fab858a5c!8m2!3d62.6329406!4d17.9385649" target="_blank" rel="noopener">Visa på karta</a>
         <h3 style="margin-top:10px">Öppettider</h3>
         <table class="hours">
           <tr><td>Måndag–fredag</td><td>10–18</td></tr>
@@ -203,8 +206,14 @@ footer .hlogo { width: clamp(88px, 22vw, 140px); height: auto; filter: invert(1)
         </table>
         <p class="msg"><span class="todo">Öppettider 24 och 27 dec samt helgdagar</span></p>
       </div>
-      <div class="card">
-        <div class="ph mapimg" role="img" aria-label="Platshållare för kartbild över GRAF">Kartbild över GRAF<br>[platshållare]</div>
+      <div class="card mapcard">
+        <!-- Static image from OpenStreetMap, so nothing loads from Google until the visitor clicks -->
+        <div class="mapbox">
+          <a class="map" href="https://www.google.com/maps/place/GRAF+-+Knutpunkten/@62.6329406,17.9385649,17z/data=!4m6!3m5!1s0x46649b3cc31aa95d:0xea2bf1fab858a5c!8m2!3d62.6329406!4d17.9385649" target="_blank" rel="noopener" aria-label="Öppna GRAF i Google Maps">
+            <img src="../assets/harar/map-graf.png" alt="Karta över centrala Härnösand med GRAF markerat vid Köpmangatan och Nybrogatan" width="1000" height="640" loading="lazy" />
+          </a>
+          <p class="osm">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>-bidragsgivare</p>
+        </div>
       </div>
     </div>
   </div>
