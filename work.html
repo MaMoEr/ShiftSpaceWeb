@@ -84,8 +84,12 @@
           </div>
         </a>
         <a class="card" href="work/harar.html">
-          <!-- Placeholder: no image yet, the stripe pattern shows instead -->
           <div class="card__pattern"></div>
+          <picture>
+            <source type="image/avif" srcset="assets/harar-700.avif 700w, assets/harar-1000.avif 1000w" sizes="(max-width: 900px) 100vw, 50vw" />
+            <source type="image/webp" srcset="assets/harar-700.webp 700w, assets/harar-1000.webp 1000w" sizes="(max-width: 900px) 100vw, 50vw" />
+            <img class="card__image" src="assets/harar-700.jpg" alt="" width="700" height="700" loading="lazy" decoding="async" />
+          </picture>
           <div class="card__scrim"></div>
           <div class="card__body">
             <div class="card__text">
