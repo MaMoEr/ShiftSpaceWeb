@@ -92,10 +92,10 @@ section { padding-block: 56px; }
 .hours td:last-child { text-align: right; font-weight: 700; padding-left: 12px; }
 .hours tr:first-child td { border-top: 0; }
 .mapbtn { justify-self: start; font: 700 16px/1 var(--font); padding: 13px 20px; border-radius: 99px; border: 2px solid var(--ink); background: var(--surface); color: var(--ink); text-decoration: none; }
-.mapcard { padding: 0; overflow: hidden; }
-.mapbox { position: relative; min-height: 300px; height: 100%; background: var(--paper); }
+.mapcard { padding: 0; overflow: hidden; align-content: stretch; }
+.mapbox { position: relative; min-height: 300px; background: var(--paper); }
 .mapbox a.map { position: absolute; inset: 0; display: block; }
-.mapbox img { width: 100%; height: 100%; object-fit: none; object-position: 50% 50%; display: block; }
+.mapbox img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; display: block; }
 .mapbox .osm { position: absolute; right: 0; bottom: 0; margin: 0; padding: 3px 8px; background: rgba(255,255,255,.88); color: var(--ink); font-size: 12px; border-top-left-radius: 8px; }
 
 /* screenshots */
@@ -183,12 +183,24 @@ footer .hlogo { width: clamp(88px, 22vw, 140px); height: auto; filter: invert(1)
     <ol class="steps">
       <li><h3>Gå till GRAF</h3><p>Appen fungerar på plats i gallerian, i Härnösand centrum.</p></li>
       <li><h3>Skanna bilden i appen</h3><p>Rikta kameran mot väggen.</p></li>
-      <li><h3>Utforska julen</h3><p>Ny lucka varje dag. Appen är gratis: finns i App Store och Google Play.</p></li>
+      <li><h3>Utforska julen</h3><p>Ny lucka varje dag.</p></li>
     </ol>
   </div>
 </section>
 
-<section class="band" id="var-och-nar">
+<section class="band" id="screenshots">
+  <div class="in">
+    <p class="label">Appen</p>
+    <div class="shots">
+      <figure><img class="shot" src="../assets/harar/shot-1.jpg" alt="24 dagar av julmagi: en julgran med tomte, hund, katt, pingviner, ren och snögubbe" width="720" height="1280" loading="lazy" /></figure>
+      <figure><img class="shot" src="../assets/harar/shot-2.jpg" alt="Lucköppning varje dag: en lila julklapp med luckenummer 1" width="720" height="1280" loading="lazy" /></figure>
+      <figure><img class="shot" src="../assets/harar/shot-3.jpg" alt="Möt tomten: 3D-scen med ljud och rörelse" width="720" height="1280" loading="lazy" /></figure>
+      <figure><img class="shot" src="../assets/harar/shot-4.jpg" alt="Världen växer för varje lucka" width="720" height="1280" loading="lazy" /></figure>
+    </div>
+  </div>
+</section>
+
+<section id="var-och-nar">
   <div class="in">
     <p class="label">Var och när</p>
     <h2>GRAF, Härnösand</h2>
@@ -215,19 +227,6 @@ footer .hlogo { width: clamp(88px, 22vw, 140px); height: auto; filter: invert(1)
           <p class="osm">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>-bidragsgivare</p>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<section id="screenshots">
-  <div class="in">
-    <p class="label">I appen</p>
-    <h2>Så ser det ut</h2>
-    <div class="shots">
-      <figure><img class="shot" src="../assets/harar/shot-1.jpg" alt="24 dagar av julmagi: en julgran med tomte, hund, katt, pingviner, ren och snögubbe" width="720" height="1280" loading="lazy" /></figure>
-      <figure><img class="shot" src="../assets/harar/shot-2.jpg" alt="Lucköppning varje dag: en lila julklapp med luckenummer 1" width="720" height="1280" loading="lazy" /></figure>
-      <figure><img class="shot" src="../assets/harar/shot-3.jpg" alt="Möt tomten: 3D-scen med ljud och rörelse" width="720" height="1280" loading="lazy" /></figure>
-      <figure><img class="shot" src="../assets/harar/shot-4.jpg" alt="Världen växer för varje lucka" width="720" height="1280" loading="lazy" /></figure>
     </div>
   </div>
 </section>
