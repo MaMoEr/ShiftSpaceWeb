@@ -321,13 +321,49 @@ button:focus-visible {
   flex-direction: column;
   gap: 32px;
 }
-.work-grid {
+/* Two sections: projects (large cards), then experiments and side projects (small cards) */
+.work {
   flex: 1;
-  padding: 0 var(--gutter) clamp(72px, 9vw, 128px);
+  padding-bottom: clamp(72px, 9vw, 128px);
+}
+.work-section + .work-section { margin-top: clamp(72px, 9vw, 128px); }
+.work-section {
+  padding: 0 var(--gutter);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 3vw, 40px);
+}
+.work-section__title {
+  margin: 0;
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+.work-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, max(420px, calc(50% - 40px))), 1fr));
   gap: clamp(24px, 3vw, 40px);
   align-content: start;
+}
+/* auto-fill, not auto-fit: a lone small card keeps its column width instead of stretching */
+.work-grid--small {
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: clamp(16px, 2vw, 24px);
+}
+@media (max-width: 560px) {
+  .work-grid--small { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 .card {
   position: relative;
@@ -403,6 +439,25 @@ a.card:hover { color: var(--ss-offwhite); }
   display: flex;
   align-items: center;
   justify-content: center;
+}
+/* Small card (experiments and side projects): same markup, sized for the card, not the viewport */
+.card--small,
+.card--small:focus-visible { border-radius: 12px; }
+.card--small .card__body {
+  left: clamp(14px, 1.6vw, 24px);
+  right: clamp(14px, 1.6vw, 24px);
+  bottom: clamp(14px, 1.6vw, 24px);
+  gap: 12px;
+}
+.card--small .card__text { gap: 8px; }
+.card--small .card__index { font-size: 11px; }
+.card--small .card__name {
+  font-size: clamp(20px, 2vw, 30px);
+  letter-spacing: -0.035em;
+}
+.card--small .card__arrow {
+  width: clamp(32px, 3vw, 44px);
+  height: clamp(32px, 3vw, 44px);
 }
 /* In-progress card: centred "Coming soon." over the stripe pattern */
 .card__soon {
