@@ -321,39 +321,32 @@ button:focus-visible {
   flex-direction: column;
   gap: 32px;
 }
-/* Two sections: projects (large cards), then experiments and side projects (small cards) */
 .work {
   flex: 1;
   padding-bottom: clamp(72px, 9vw, 128px);
 }
-.work-section + .work-section { margin-top: clamp(72px, 9vw, 128px); }
-.work-section {
-  padding: 0 var(--gutter);
-  display: flex;
-  flex-direction: column;
-  gap: clamp(24px, 3vw, 40px);
-}
-.work-section__title {
-  margin: 0;
-  font-size: clamp(28px, 3vw, 40px);
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-}
+.work-section { padding: 0 var(--gutter); }
 .work-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, max(420px, calc(50% - 40px))), 1fr));
   gap: clamp(24px, 3vw, 40px);
   align-content: start;
 }
-/* auto-fill, not auto-fit: a lone small card keeps its column width instead of stretching */
-.work-grid--small {
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: clamp(16px, 2vw, 24px);
+/* Experiments: an ink-wash square in the free grid slot, the same size as a project card.
+   One experiment fills it; two stack as half-height cards (each with .card--small). */
+.work-exp {
+  --exp-pad: clamp(10px, 1.2vw, 16px);
+  position: relative;
+  aspect-ratio: 1 / 1;
+  min-width: 0;
+  padding: var(--exp-pad);
+  border-radius: calc(16px + var(--exp-pad));
+  background: rgba(40, 46, 69, 0.09);
+  display: grid;
+  grid-auto-rows: minmax(0, 1fr);
+  gap: var(--exp-pad);
 }
-@media (max-width: 560px) {
-  .work-grid--small { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
+.work-exp > .card { aspect-ratio: auto; }
 .sr-only {
   position: absolute;
   width: 1px;
