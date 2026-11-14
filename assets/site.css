@@ -658,6 +658,12 @@ a.card:hover { color: var(--ss-offwhite); }
   color: rgba(40, 46, 69, 0.85);
 }
 .project-list li::marker { color: var(--ss-amber); }
+.project-list strong { font-weight: 600; }
+.project-desc__text a {
+  text-decoration: underline;
+  text-decoration-color: var(--ss-amber);
+  text-underline-offset: 4px;
+}
 
 /* Image markers: title, image and download link per item */
 .markers {
