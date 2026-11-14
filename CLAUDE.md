@@ -23,6 +23,8 @@ Run the `site` config in `.claude/launch.json` (`npx http-server . -p 8123`), or
 
 **Older standalone pages** have their own inline styles (Inter font) and should be kept: `privacy.html` and `privacy-sv.html` (their URLs must not change; they cover the website and the AR View and HÄR AR apps), `ar-view.html`, `skojar.html`, `paper/` (Unity WebGL Paper Planes build).
 
+**Indexing:** every indexable page has a self-referencing `<link rel="canonical" href="https://www.shiftspace.se/<path>" />` in its head, on the line above its `hreflang` links, and an entry in `sitemap.xml` (listed in `robots.txt`). Directory pages use the directory URL (`/`, `/en/`, `/paper/`, `/harar/`), never `index.html`. A new page needs both its canonical and its sitemap entry, in both languages. A page with `noindex` gets neither; don't block it in `robots.txt`, or Google can't read the `noindex`.
+
 **Theme:** each page sets a body class (`theme-dark`, `theme-navy` or `theme-light`), which sets the page colors. The header logo matches the theme: `assets/lockup-{white,amber,navy}.png` (white on imagery, amber on dark, navy on light).
 
 **Brand tokens** (in `assets/site.css`): navy `#282E45`, amber `#ECB200`, near-black `#090D16`, off-white `#EEF0F3`. Muted text uses ink opacity, not new greys.
