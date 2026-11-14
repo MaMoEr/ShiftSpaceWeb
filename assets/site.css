@@ -557,6 +557,28 @@ a.card:hover { color: var(--ss-offwhite); }
   text-wrap: pretty;
   color: rgba(40, 46, 69, 0.85);
 }
+.theme-dark .project-desc__text { color: var(--paper-82); }
+
+/* Video block: a muted loop, wider than the text column (assets/video.js handles reduced motion) */
+.project-media {
+  padding: 0 var(--gutter) clamp(72px, 10vw, 160px);
+  display: flex;
+  justify-content: center;
+}
+.project-video {
+  display: block;
+  width: 100%;
+  max-width: 1280px;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  background: var(--ss-black-700);
+  object-fit: cover;
+}
+/* Narrow screens: crop to a square so the centred subject is not tiny */
+@media (max-width: 720px) {
+  .project-video { aspect-ratio: 1 / 1; }
+}
 
 .project-links {
   padding: 0 var(--gutter) clamp(72px, 10vw, 160px);

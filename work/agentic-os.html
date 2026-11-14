@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agentic OS — ShiftSpace</title>
+  <link rel="icon" href="/favicon.ico" sizes="48x48" />
+  <link rel="icon" href="/assets/favicon-32.png" type="image/png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="description" content="Agentic OS – ett lokalt kontrollcenter för arbete med Claude-agenter. Ett experiment av ShiftSpace." />
+  <link rel="canonical" href="https://www.shiftspace.se/work/agentic-os.html" />
+  <link rel="alternate" hreflang="sv" href="https://www.shiftspace.se/work/agentic-os.html" />
+  <link rel="alternate" hreflang="en" href="https://www.shiftspace.se/en/work/agentic-os.html" />
+  <link rel="alternate" hreflang="x-default" href="https://www.shiftspace.se/work/agentic-os.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/site.css" />
+  <script>document.documentElement.classList.add('js');</script>
+  <script src="../assets/nav.js" defer></script>
+</head>
+<body class="theme-dark">
+  <div class="page">
+    <section class="project-hero">
+      <div class="project-hero__pattern"></div>
+      <picture>
+        <source type="image/avif" srcset="../assets/agentic-os-hero-1280.avif 1280w, ../assets/agentic-os-hero-1920.avif 1920w, ../assets/agentic-os-hero-2560.avif 2560w" sizes="100vw" />
+        <source type="image/webp" srcset="../assets/agentic-os-hero-1280.webp 1280w, ../assets/agentic-os-hero-1920.webp 1920w, ../assets/agentic-os-hero-2560.webp 2560w" sizes="100vw" />
+        <img class="project-hero__img" src="../assets/agentic-os-hero-1920.jpg" alt="" width="2560" height="1440" fetchpriority="high" />
+      </picture>
+      <div class="project-hero__scrim"></div>
+      <header class="site-header">
+        <a class="site-header__logo" href="../index.html"><img src="../assets/lockup-white.png" alt="ShiftSpace" width="450" height="71" /></a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Meny"><svg class="nav-toggle__icon nav-toggle__icon--menu" viewBox="0 -960 960 960" width="28" height="28" aria-hidden="true" focusable="false"><path d="M140-254.62v-59.99h680v59.99H140ZM140-450v-60h680v60H140Zm0-195.39v-59.99h680v59.99H140Z"/></svg><svg class="nav-toggle__icon nav-toggle__icon--close" viewBox="0 -960 960 960" width="28" height="28" aria-hidden="true" focusable="false"><path d="M256-213.85 213.85-256l224-224-224-224L256-746.15l224 224 224-224L746.15-704l-224 224 224 224L704-213.85l-224-224-224 224Z"/></svg></button>
+        <nav class="site-nav" id="site-nav" aria-label="Webbplatsnavigering">
+          <a href="../work.html" class="is-section">Projekt</a>
+          <a href="../about.html">Om oss</a>
+          <a href="../contact.html">Kontakt</a>
+          <a class="site-nav__lang" href="../en/work/agentic-os.html" hreflang="en" lang="en" aria-label="English">EN</a>
+        </nav>
+      </header>
+      <div class="project-hero__bottom">
+        <a class="project-hero__back" href="../work.html">← Alla projekt</a>
+        <h1 class="project-hero__title">Agentic OS</h1>
+      </div>
+    </section>
+
+    <main>
+      <section class="project-desc">
+        <div class="project-col">
+          <div class="kicker">Om projektet</div>
+          <p class="project-desc__text"><strong>Agentic OS</strong> är ett kontrollcenter för arbete med Claude-agenter. Sessioner, uppgifter, kostnader och körningar på ett ställe.</p>
+          <p class="project-desc__text">Det körs lokalt på den egna datorn och använder data genererad av Claude och dess sessioner.</p>
+          <p class="project-desc__text">Ett experiment i att hålla ordning.</p>
+        </div>
+      </section>
+
+      <!-- Video block: muted loop. assets/video.js runs right after it and pauses it when the
+           visitor prefers reduced motion (it must stay synchronous, not deferred). -->
+      <section class="project-media">
+        <video class="project-video" muted loop playsinline autoplay preload="auto" poster="../assets/agentic-os-galaxy-loop-poster.jpg" width="1920" height="1080" aria-label="Video: Agentic OS-grafen, från helheten till en närbild och tillbaka">
+          <source src="../assets/agentic-os-galaxy-loop.mp4" type="video/mp4" />
+          <source src="../assets/agentic-os-galaxy-loop.webm" type="video/webm" />
+        </video>
+        <script src="../assets/video.js"></script>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>ShiftSpace AB · Stockholm</span>
+      <a href="../contact.html">Kontakt →</a>
+    </footer>
+  </div>
+</body>
+</html>
