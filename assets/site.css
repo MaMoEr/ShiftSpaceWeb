@@ -694,6 +694,12 @@ a.card:hover { color: var(--ss-offwhite); }
   border-radius: 8px;
   background: #fff;
 }
+.marker__note {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-70);
+}
 .marker__download {
   align-self: flex-start;
   font-family: var(--font-mono);
