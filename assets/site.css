@@ -970,9 +970,9 @@ textarea.field__control {
   margin: 0;
   max-width: 46ch;
   font-size: clamp(18px, 1.6vw, 22px);
-  font-weight: 300;
+  font-weight: 500;
   line-height: 1.5;
-  color: var(--ink-85);
+  color: var(--ss-navy);
 }
 
 .btn-primary {
@@ -1113,6 +1113,9 @@ a.release-card:hover .release-card__more {
 /* A single release: full width, image left and text right */
 .release-card:only-child { grid-column: 1 / -1; display: grid; grid-template-columns: 1.4fr 1fr; }
 .release-card:only-child .release-card__img { height: 100%; aspect-ratio: auto; min-height: 400px; }
+/* The tall frame shows the image's full height; zoom in so the scene, not the sky, fills it */
+.release-card:only-child picture { display: block; overflow: hidden; }
+.release-card:only-child .release-card__img { transform: scale(1.3); transform-origin: 50% 85%; }
 .release-card:only-child .release-card__body { padding: clamp(28px, 4vw, 56px); justify-content: center; gap: 16px; }
 .release-card:only-child .release-card__title {
   font-size: clamp(28px, 3vw, 40px);
@@ -1130,7 +1133,7 @@ a.release-card:hover .release-card__more {
 .press-band a:hover { color: var(--ss-amber); }
 .press-band + .site-footer { background: var(--ss-black); color: var(--paper-55); border-top: 0; }
 .press-cols { display: grid; gap: 40px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-.press-cols p { margin: 12px 0 8px; font-weight: 300; line-height: 1.6; }
+.press-cols p { margin: 12px 0 8px; max-width: 62ch; font-weight: 300; line-height: 1.6; }
 .press-dl {
   display: flex;
   justify-content: space-between;
@@ -1156,7 +1159,7 @@ a.release-card:hover .release-card__more {
   .press-contact__cell + .press-contact__cell { border-left: 0; border-top: 1px solid var(--ss-hairline); }
   a.press-contact__cell:last-child { border-radius: 0 0 16px 16px; }
   .release-card:only-child { grid-template-columns: 1fr; }
-  .release-card:only-child .release-card__img { min-height: 0; aspect-ratio: 16 / 10; }
+  .release-card:only-child .release-card__img { min-height: 0; aspect-ratio: 16 / 10; transform: none; }
 }
 
 /* ---------- Press release ---------- */
