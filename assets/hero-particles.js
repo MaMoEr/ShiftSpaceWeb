@@ -150,7 +150,7 @@ async function start() {
     const c = cells[i];
     hu[i] = ((c % grid) + Math.random()) / grid * 2 - 1;
     hv[i] = (Math.floor(c / grid) + Math.random()) / grid * 2 - 1;
-    hz[i] = rand(-4.5, 3.5);
+    hz[i] = Math.random(); // depth, from far behind the logo to just in front of the camera
   }
   const geo = new THREE.BufferGeometry();
   const posAttr = new THREE.BufferAttribute(pos, 3).setUsage(THREE.DynamicDrawUsage);
@@ -164,16 +164,22 @@ async function start() {
     transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
     uniforms: { uScale: { value: 1 } },
     vertexShader: `attribute float aSize; attribute vec3 aColor; attribute vec3 aTarget;
-      uniform float uScale; varying vec3 vC;
+      uniform float uScale; varying vec3 vC; varying float vSoft;
       void main(){
         float away = smoothstep(0.8, 3.0, distance(position, aTarget));
         vec4 mv = modelViewMatrix * vec4(position, 1.0);
-        gl_PointSize = aSize * mix(1.0, 0.7, away) * uScale / -mv.z;
-        gl_Position = projectionMatrix * mv; vC = aColor * mix(1.0, 0.28, away);
+        // particles near the camera look large and out of focus: softer and dimmer
+        float near = (1.0 - smoothstep(2.0, 9.0, -mv.z)) * away;
+        gl_PointSize = aSize * mix(1.0, 0.7, away) * mix(1.0, 1.5, near) * uScale / -mv.z;
+        gl_Position = projectionMatrix * mv;
+        vC = aColor * mix(1.0, 0.28, away) * mix(1.0, 0.9, near);
+        vSoft = near;
       }`,
-    fragmentShader: `varying vec3 vC;
+    fragmentShader: `varying vec3 vC; varying float vSoft;
       void main(){
-        float a = smoothstep(0.5, 0.05, length(gl_PointCoord - 0.5));
+        float r = length(gl_PointCoord - 0.5);
+        float soft = 1.0 - min(1.0, r * 2.0);
+        float a = mix(smoothstep(0.5, 0.05, r), soft * soft, vSoft);
         gl_FragColor = vec4(vC * a, a);
       }`,
   });
@@ -231,12 +237,13 @@ async function start() {
     camera.updateProjectionMatrix();
     mat.uniforms.uScale.value = (h * PR * 0.5) / half * 0.045;
     points.position.set(portrait ? 0 : 1.8, portrait ? 2.0 : 0.75, 0);
-    // homes fill what the camera sees at each depth, with a margin for the sway
-    const D = camera.position.z, hh = half * 1.15, hw = half * aspect * 1.15;
+    // Homes fill what the camera sees at each depth, from 6 units behind the logo to 2.2 units in
+    // front of the camera, with a margin for the sway and for the camera following the pointer.
+    const D = camera.position.z, hh = half * 1.15, hw = half * aspect * 1.15, zFar = -6, zNear = D - 2.2;
     for (let i = 0, j = 0; i < N; i++, j += 3) {
-      const z = hz[i], k = (D - z);
-      home[j] = hu[i] * hw * k - points.position.x;
-      home[j + 1] = hv[i] * hh * k - points.position.y + 0.4;
+      const z = zFar + hz[i] * (zNear - zFar), k = (D - z);
+      home[j] = hu[i] * (hw * k + 2.2) - points.position.x;
+      home[j + 1] = hv[i] * (hh * k + 1.4) - points.position.y + 0.4;
       home[j + 2] = z;
     }
   }
