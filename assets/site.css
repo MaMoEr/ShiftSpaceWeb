@@ -256,6 +256,19 @@ button:focus-visible {
 @media (orientation: portrait) {
   .hero__img { height: 100vh; height: 100svh; }
 }
+/* Live particle scene (assets/hero-particles.js) over the poster image. Hidden until its first
+   frame has rendered; if the script never starts, the poster stays. */
+.hero__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 0;
+  transition: opacity 600ms ease;
+  touch-action: pan-y;
+}
+.hero__canvas.is-on { opacity: 1; }
 .hero__scrim-top,
 .hero__scrim-bottom {
   position: absolute;
