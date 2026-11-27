@@ -294,8 +294,8 @@ async function start() {
     const tgt = mark.pos;
     // Re-forming: stiffer springs and a higher speed limit for the first seconds, so the logo
     // gathers quickly, then the normal gentle springs take over.
-    const reform = phase === 'hold' && phaseT < 2.5 && t > HOLD;
-    const pull = reform ? 2.4 : 1, cap = reform ? 0.32 : 0.12;
+    const reform = phase === 'hold' && phaseT < 3.5 && t > HOLD;
+    const pull = reform ? 1.6 : 1, cap = reform ? 0.17 : 0.12;
     const f = Math.min(dt * 60, 2.5), dampLogo = Math.pow(0.9, f), dampFluid = Math.pow(0.985, f);
     for (let i = 0, j = 0; i < N; i++, j += 3) {
       const px = pos[j], py = pos[j + 1], pz = pos[j + 2];
