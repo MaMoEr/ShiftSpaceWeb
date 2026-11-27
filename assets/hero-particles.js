@@ -285,6 +285,10 @@ async function start() {
     }
 
     const tgt = mark.pos;
+    // Re-forming: stiffer springs and a higher speed limit for the first seconds, so the logo
+    // gathers quickly, then the normal gentle springs take over.
+    const reform = phase === 'hold' && phaseT < 2.5 && t > HOLD;
+    const pull = reform ? 2.4 : 1, cap = reform ? 0.32 : 0.12;
     const f = Math.min(dt * 60, 2.5), dampLogo = Math.pow(0.9, f), dampFluid = Math.pow(0.985, f);
     for (let i = 0, j = 0; i < N; i++, j += 3) {
       const px = pos[j], py = pos[j + 1], pz = pos[j + 2];
@@ -297,7 +301,7 @@ async function start() {
         az = (fv[2] * 0.014 - vel[j + 2]) * 0.03 + (home[j + 2] - pz) * 0.0012;
         damp = dampFluid;
       } else {
-        const k = kk[i];
+        const k = kk[i] * pull;
         ax = (tgt[j] - px) * k + Math.sin(py * 2 + t) * 0.0005;
         ay = (tgt[j + 1] - py) * k + Math.sin(pz * 2 + t * 1.3) * 0.0005;
         az = (tgt[j + 2] - pz) * k;
@@ -307,7 +311,7 @@ async function start() {
       if (d2 < 2.6) { const s = (2.6 - d2) * 0.03 / (Math.sqrt(d2) + 0.05); ax += dx * s; ay += dy * s; az += dz * s + 0.01; }
       let vx = (vel[j] + ax * f) * damp, vy = (vel[j + 1] + ay * f) * damp, vz = (vel[j + 2] + az * f) * damp;
       const sp2 = vx * vx + vy * vy + vz * vz;
-      if (sp2 > 0.0144) { const s = 0.12 / Math.sqrt(sp2); vx *= s; vy *= s; vz *= s; }
+      if (sp2 > cap * cap) { const s = cap / Math.sqrt(sp2); vx *= s; vy *= s; vz *= s; }
       vel[j] = vx; vel[j + 1] = vy; vel[j + 2] = vz;
       pos[j] = px + vx * f; pos[j + 1] = py + vy * f; pos[j + 2] = pz + vz * f;
     }
