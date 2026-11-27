@@ -131,25 +131,45 @@ async function start() {
   /* ---------- particles ---------- */
   // They start on the logo, so the canvas fades in over a poster of the same frame without a jump.
   const pos = new Float32Array(mark.pos), vel = new Float32Array(N * 3), kk = new Float32Array(N);
-  const size = new Float32Array(N);
+  const size = new Float32Array(N), delay = new Float32Array(N);
+  // Dissolve order: the logo peels away from left to right, as if a current carries it off.
+  let minX = Infinity, maxX = -Infinity;
+  for (let i = 0; i < N; i++) { const x = mark.pos[i * 3]; if (x < minX) minX = x; if (x > maxX) maxX = x; }
   for (let i = 0; i < N; i++) {
     size[i] = Math.random() < 0.025 ? rand(1.8, 2.4) : rand(0.6, 1.2);
     kk[i] = rand(0.014, 0.04);
+    delay[i] = 1.6 * (mark.pos[i * 3] - minX) / (maxX - minX) + rand(0, 0.6);
+  }
+  // Dispersed homes: one particle per cell of a jittered grid across the view, at a random depth,
+  // so the particles end up spread evenly through the space with slight variations.
+  const grid = Math.ceil(Math.sqrt(N)), cells = new Uint32Array(grid * grid);
+  for (let c = 0; c < cells.length; c++) cells[c] = c;
+  for (let c = cells.length - 1; c > 0; c--) { const r = (Math.random() * (c + 1)) | 0, s = cells[c]; cells[c] = cells[r]; cells[r] = s; }
+  const hu = new Float32Array(N), hv = new Float32Array(N), hz = new Float32Array(N), home = new Float32Array(N * 3);
+  for (let i = 0; i < N; i++) {
+    const c = cells[i];
+    hu[i] = ((c % grid) + Math.random()) / grid * 2 - 1;
+    hv[i] = (Math.floor(c / grid) + Math.random()) / grid * 2 - 1;
+    hz[i] = rand(-4.5, 3.5);
   }
   const geo = new THREE.BufferGeometry();
   const posAttr = new THREE.BufferAttribute(pos, 3).setUsage(THREE.DynamicDrawUsage);
   geo.setAttribute('position', posAttr);
+  geo.setAttribute('aTarget', new THREE.BufferAttribute(mark.pos, 3));
   geo.setAttribute('aColor', new THREE.BufferAttribute(mark.col, 3));
   geo.setAttribute('aSize', new THREE.BufferAttribute(size, 1));
+  // A particle dims and shrinks as it leaves its place in the logo, so the dispersed field reads
+  // as fine matter suspended in a fluid rather than a sky of bright stars.
   const mat = new THREE.ShaderMaterial({
     transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
     uniforms: { uScale: { value: 1 } },
-    vertexShader: `attribute float aSize; attribute vec3 aColor;
+    vertexShader: `attribute float aSize; attribute vec3 aColor; attribute vec3 aTarget;
       uniform float uScale; varying vec3 vC;
       void main(){
+        float away = smoothstep(0.8, 3.0, distance(position, aTarget));
         vec4 mv = modelViewMatrix * vec4(position, 1.0);
-        gl_PointSize = aSize * uScale / -mv.z;
-        gl_Position = projectionMatrix * mv; vC = aColor;
+        gl_PointSize = aSize * mix(1.0, 0.7, away) * uScale / -mv.z;
+        gl_Position = projectionMatrix * mv; vC = aColor * mix(1.0, 0.28, away);
       }`,
     fragmentShader: `varying vec3 vC;
       void main(){
@@ -211,6 +231,14 @@ async function start() {
     camera.updateProjectionMatrix();
     mat.uniforms.uScale.value = (h * PR * 0.5) / half * 0.045;
     points.position.set(portrait ? 0 : 1.8, portrait ? 2.0 : 0.75, 0);
+    // homes fill what the camera sees at each depth, with a margin for the sway
+    const D = camera.position.z, hh = half * 1.15, hw = half * aspect * 1.15;
+    for (let i = 0, j = 0; i < N; i++, j += 3) {
+      const z = hz[i], k = (D - z);
+      home[j] = hu[i] * hw * k - points.position.x;
+      home[j + 1] = hv[i] * hh * k - points.position.y + 0.4;
+      home[j + 2] = z;
+    }
   }
   resize();
   new ResizeObserver(resize).observe(canvas);
@@ -218,9 +246,30 @@ async function start() {
 
   /* ---------- motion ---------- */
   const ray = new THREE.Raycaster(), zPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0), M = new THREE.Vector3();
-  // The logo always holds its shape: it sways slowly, the camera follows the pointer,
-  // and the pointer pushes particles aside, after which they spring back.
+  // Cycle: the logo holds, then dissolves. Its particles drift out on a slow flow field until they
+  // fill the space evenly, hang there like particles in a fluid, and then gather back into the logo.
+  // Throughout, the camera follows the pointer and the pointer pushes particles aside.
+  const HOLD = 9, DISPERSED = 9;
+  let phase = 'hold', phaseT = 0, spread = 0;
+
+  // A divergence-free 2D flow (from a stream function) plus a gentle depth wobble.
+  function flow(x, y, t, out) {
+    const a = 0.32 * x + 0.13 * t, b = 0.27 * y - 0.11 * t, c = 0.21 * (x + y) + 0.17 * t + 1.3;
+    const cc = 0.126 * Math.cos(c);
+    out[0] = -0.27 * Math.sin(a) * Math.sin(b) + cc;
+    out[1] = -(0.32 * Math.cos(a) * Math.cos(b) + cc);
+    out[2] = 0.3 * Math.sin(0.25 * x + 0.19 * y + 0.1 * t);
+  }
+  const fv = [0, 0, 0];
+
   function update(t, dt) {
+    phaseT += dt;
+    if (phase === 'hold' && phaseT > HOLD) { phase = 'out'; phaseT = 0; }
+    else if (phase === 'out' && phaseT > DISPERSED) { phase = 'hold'; phaseT = 0; }
+    const out = phase === 'out';
+    spread += ((out && phaseT > 1 ? 1 : 0) - spread) * (1 - Math.exp(-dt * 1.2));
+    bloom.strength = 0.7 - 0.35 * spread;
+
     const kp = 1 - Math.exp(-dt * 4.5);
     input.mx += (input.tx - input.mx) * kp; input.my += (input.ty - input.my) * kp;
     camera.position.x = input.mx * 2; camera.position.y = 0.4 + input.my * 1.3;
@@ -236,12 +285,24 @@ async function start() {
     }
 
     const tgt = mark.pos;
-    const f = Math.min(dt * 60, 2.5), damp = Math.pow(0.9, f);
+    const f = Math.min(dt * 60, 2.5), dampLogo = Math.pow(0.9, f), dampFluid = Math.pow(0.985, f);
     for (let i = 0, j = 0; i < N; i++, j += 3) {
-      const px = pos[j], py = pos[j + 1], pz = pos[j + 2], k = kk[i];
-      let ax = (tgt[j] - px) * k + Math.sin(py * 2 + t) * 0.0005;
-      let ay = (tgt[j + 1] - py) * k + Math.sin(pz * 2 + t * 1.3) * 0.0005;
-      let az = (tgt[j + 2] - pz) * k;
+      const px = pos[j], py = pos[j + 1], pz = pos[j + 2];
+      let ax, ay, az, damp;
+      if (out && phaseT > delay[i]) {
+        // carried by the flow, with a weak pull towards its even-spread home
+        flow(px, py, t, fv);
+        ax = (fv[0] * 0.014 - vel[j]) * 0.03 + (home[j] - px) * 0.0012;
+        ay = (fv[1] * 0.014 - vel[j + 1]) * 0.03 + (home[j + 1] - py) * 0.0012;
+        az = (fv[2] * 0.014 - vel[j + 2]) * 0.03 + (home[j + 2] - pz) * 0.0012;
+        damp = dampFluid;
+      } else {
+        const k = kk[i];
+        ax = (tgt[j] - px) * k + Math.sin(py * 2 + t) * 0.0005;
+        ay = (tgt[j + 1] - py) * k + Math.sin(pz * 2 + t * 1.3) * 0.0005;
+        az = (tgt[j + 2] - pz) * k;
+        damp = dampLogo;
+      }
       const dx = px - rx, dy = py - ry, dz = (pz - rz) * 0.5, d2 = dx * dx + dy * dy + dz * dz;
       if (d2 < 2.6) { const s = (2.6 - d2) * 0.03 / (Math.sqrt(d2) + 0.05); ax += dx * s; ay += dy * s; az += dz * s + 0.01; }
       let vx = (vel[j] + ax * f) * damp, vy = (vel[j + 1] + ay * f) * damp, vz = (vel[j + 2] + az * f) * damp;
