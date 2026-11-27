@@ -112,14 +112,14 @@ async function start() {
       const src = Math.random() < 0.3 ? edge : fill, k = ((Math.random() * src.length / 2) | 0) * 2;
       const px = src[k] + Math.random(), py = src[k + 1] + Math.random();
       let x = (px - W / 2) * s, y = -(py - H / 2) * s, z, c;
-      if (n % 100 < 60) { // the logo itself: a thin, bright slab
-        z = rand(-0.24, 0.24);
+      if (n % 100 < 55) { // the logo itself: a thin, bright slab
+        z = rand(-0.32, 0.32);
         c = Math.random() < 0.08 ? WHITE : Math.random() < 0.03 ? SPARK : AMBER;
       } else { // depth halo: in front of and behind the logo, spreading and fading with distance
-        z = gauss() * 1.3;
+        z = gauss() * 2.2;
         const az = Math.abs(z);
         x += gauss() * az * 0.18; y += gauss() * az * 0.18;
-        c = (Math.random() < 0.15 ? WHITE : AMBER).clone().multiplyScalar(Math.exp(-az * 0.75) * 0.9 + 0.08);
+        c = (Math.random() < 0.15 ? WHITE : AMBER).clone().multiplyScalar(Math.exp(-az * 0.45) * 0.9 + 0.08);
       }
       pos[n * 3] = x; pos[n * 3 + 1] = y; pos[n * 3 + 2] = z;
       col[n * 3] = c.r; col[n * 3 + 1] = c.g; col[n * 3 + 2] = c.b;
@@ -169,7 +169,7 @@ async function start() {
         float away = smoothstep(0.8, 3.0, distance(position, aTarget));
         vec4 mv = modelViewMatrix * vec4(position, 1.0);
         // particles near the camera look large and out of focus: softer and dimmer
-        float near = (1.0 - smoothstep(2.0, 9.0, -mv.z)) * away;
+        float near = 1.0 - smoothstep(2.0, 9.0, -mv.z);
         gl_PointSize = aSize * mix(1.0, 0.7, away) * mix(1.0, 1.5, near) * uScale / -mv.z;
         gl_Position = projectionMatrix * mv;
         vC = aColor * mix(1.0, 0.28, away) * mix(1.0, 0.9, near);
@@ -279,7 +279,7 @@ async function start() {
 
     const kp = 1 - Math.exp(-dt * 4.5);
     input.mx += (input.tx - input.mx) * kp; input.my += (input.ty - input.my) * kp;
-    camera.position.x = input.mx * 2; camera.position.y = 0.4 + input.my * 1.3;
+    camera.position.x = input.mx * 2.6; camera.position.y = 0.4 + input.my * 1.6;
     camera.lookAt(points.position.x * 0.5, points.position.y * 0.5, 0);
     points.rotation.y = Math.sin(t * 0.12) * 0.3 + input.mx * 0.15;
     points.rotation.x = Math.sin(t * 0.09) * 0.06;
